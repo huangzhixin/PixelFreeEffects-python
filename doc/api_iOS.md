@@ -3,6 +3,7 @@
 ## 相关文档
 - [Android API 文档](api_android.md)
 - [Flutter API 文档](api_flutter.md)
+- [C API 文档](api_c.md)
 - [使用文档](../README.md)
 
 ## API 引用
@@ -103,8 +104,30 @@ OpenGL ES 上下文。
 ```
 
 **参数：**
-- `key`: 美颜参数类型
-- `value`: 参数值
+- `key`: 美颜参数类型，常用类型包括：
+  - `PFBeautyFilterTypeFaceBlurStrength`: 磨皮
+  - `PFBeautyFilterTypeFaceM_newWhitenStrength`: 美白
+  - `PFBeautyFilterTypeFaceRuddyStrength`: 红润
+  - `PFBeautyFilterTypeFaceEyeBrighten`: 亮眼
+  - `PFBeautyFilterNasolabial`: 祛法令纹
+  - `PFBeautyFilterBlackEye`: 祛黑眼圈
+  - `PFBeautyFilterWhitenTeeth`: 美牙
+- `value`: 参数值，通常为 `float` 类型指针，范围 0.0 ~ 1.0
+
+**使用示例：**
+```objective-c
+// 设置磨皮强度
+float blurValue = 0.7f;
+[_mPixelFree pixelFreeSetBeautyFilterParam:PFBeautyFilterTypeFaceBlurStrength value:&blurValue];
+
+// 设置美牙强度
+float whitenTeethValue = 0.5f;
+[_mPixelFree pixelFreeSetBeautyFilterParam:PFBeautyFilterWhitenTeeth value:&whitenTeethValue];
+
+// 设置亮眼强度
+float eyeBrightenValue = 0.3f;
+[_mPixelFree pixelFreeSetBeautyFilterParam:PFBeautyFilterTypeFaceEyeBrighten value:&eyeBrightenValue];
+```
 
 ## 资源加载
 

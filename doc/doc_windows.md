@@ -1,6 +1,11 @@
 # pixelFree 美颜SDK使用文档 
 
-#### iOS 接入方式
+## 相关文档
+- [C API 文档](api_c.md)
+- [C 使用文档](doc_c.md)
+- [使用文档](../README.md)
+
+#### Windows 接入方式
 
 1.  手动接入 [PixelFree.lib](../SMBeautyEngine_windows/pixelfreeLib/PixelFree.lib)
 
@@ -116,6 +121,12 @@ typedef enum PFBeautyFiterType{
     PFBeautyFiterTypeOneKey,
     // 扩展字段
     PFBeautyFiterExtend,
+    // 祛法令纹
+    PFBeautyFilterNasolabial,
+    // 祛黑眼圈
+    PFBeautyFilterBlackEye,
+    // 美牙
+    PFBeautyFilterWhitenTeeth,
 } PFBeautyFiterType;
 ```
 

@@ -19,9 +19,12 @@ dependencies:
 
 2. 美颜参数设置
 
-   ```kotlin
+   ```dart
    // 大眼
-   _pixelFreePlugin.pixelFreeSetBeautyFiterParam(PFBeautyFiterType.EyeStrength,value); 
+   await _pixelFreePlugin.pixelFreeSetBeautyFiterParam(PFBeautyFiterType.eyeStrength, 0.5);
+   
+   // 美牙
+   await _pixelFreePlugin.pixelFreeSetBeautyFiterParam(PFBeautyFiterType.whitenTeeth, 0.5);
    ```
 
 3. 滤镜与程度
@@ -103,7 +106,14 @@ enum PFBeautyFiterType {
   typeOneKey,
   // 水印（默认关闭）
   watermark,
-  // 扩展
+  // 扩展字段
+  extend,
+  // 祛法令纹（默认0.0，关闭）
+  nasolabial,
+  // 祛黑眼圈（默认0.0，关闭）
+  blackEye,
+  // 美牙（默认0.0，关闭）
+  whitenTeeth,
 }
 ```
 

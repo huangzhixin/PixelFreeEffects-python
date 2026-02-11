@@ -33,7 +33,11 @@
 
     ```
    // 大眼
-   [_mPixelFree pixelFreeSetBeautyFiterParam:PFBeautyFiterTypeFace_EyeStrength value:&value]; 
+   [_mPixelFree pixelFreeSetBeautyFiterParam:PFBeautyFiterTypeFace_EyeStrength value:&value];
+   
+   // 美牙
+   float whitenTeethValue = 0.5f;
+   [_mPixelFree pixelFreeSetBeautyFiterParam:PFBeautyFilterWhitenTeeth value:&whitenTeethValue];
    ```
 
 3. 滤镜设置 (内置 10 款滤镜 )
@@ -116,6 +120,8 @@ typedef enum PFBeautyFiterType{
     PFBeautyFilterNasolabial,
     // 祛黑眼圈
     PFBeautyFilterBlackEye,
+    // 美牙
+    PFBeautyFilterWhitenTeeth,
 } PFBeautyFiterType;
 ```
 

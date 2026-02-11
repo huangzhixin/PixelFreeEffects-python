@@ -35,12 +35,15 @@
 
    ```kotlin
    // 大眼
-   mPixelFree.pixelFreeSetBeautyFiterParam(PFBeautyFiterTypeFace_EyeStrength,0.5f); 
+   mPixelFree.pixelFreeSetBeautyFiterParam(PFBeautyFiterTypeFace_EyeStrength, 0.5f)
    
    // 瘦脸
-   mPixelFree.pixelFreeSetBeautyFiterParam(PFBeautyFiterTypeFace_thinning,0.5f); 
+   mPixelFree.pixelFreeSetBeautyFiterParam(PFBeautyFiterTypeFace_thinning, 0.5f)
    
-   ···
+   // 美牙
+   mPixelFree.pixelFreeSetBeautyFiterParam(PFBeautyFilterWhitenTeeth, 0.5f)
+   
+   // 更多参数设置...
    ```
 
 3. 滤镜与程度
@@ -307,14 +310,24 @@ enum class PFBeautyFiterType(val intType: Int) {
     PFBeautyFiterTypeFaceM_newWhitenStrength(19),
     //画质增强（默认0.0，关闭）
     PFBeautyFiterTypeFaceH_qualityStrength(20),
+    //亮眼（默认0.0，关闭）
+    PFBeautyFiterTypeFaceEyeBrighten(21),
     //滤镜类型（默认 origin，原图）
-    PFBeautyFiterName(21),
+    PFBeautyFiterName(22),
+    //滤镜强度
+    PFBeautyFiterStrength(23),
     // 2D贴纸 
     PFBeautyFiterSticker2DFilter(24),
     // 一键美颜
     PFBeautyFiterTypeOneKey(25),
     // 扩展字段
     PFBeautyFiterExtend(26),
+    // 祛法令纹（默认0.0，关闭）
+    PFBeautyFilterNasolabial(27),
+    // 祛黑眼圈（默认0.0，关闭）
+    PFBeautyFilterBlackEye(28),
+    // 美牙（默认0.0，关闭）
+    PFBeautyFilterWhitenTeeth(29),
 }
 ```
 

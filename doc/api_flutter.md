@@ -1,8 +1,9 @@
 # pixelFree Flutter API 文档
 
 ## 相关文档
-- [iOS API 文档](api_ios.md)
+- [iOS API 文档](api_iOS.md)
 - [Android API 文档](api_android.md)
+- [C API 文档](api_c.md)
 - [使用文档](../README.md)
 
 ## 安装
@@ -91,17 +92,25 @@ Future<void> pixelFreeSetBeautyFilterParam(PFBeautyFiterType type, double value)
 ```
 
 **参数：**
-- `type`: 美颜参数类型，可选值：
-  - `PFBeautyFiterType.smooth`: 磨皮
-  - `PFBeautyFiterType.whiten`: 美白
-  - `PFBeautyFiterType.ruddy`: 红润
+- `type`: 美颜参数类型，常用类型包括：
+  - `PFBeautyFiterType.faceBlurStrength`: 磨皮
+  - `PFBeautyFiterType.faceNewWhitenStrength`: 美白
+  - `PFBeautyFiterType.faceRuddyStrength`: 红润
+  - `PFBeautyFiterType.faceEyeBrighten`: 亮眼
+  - `PFBeautyFiterType.whitenTeeth`: 美牙
   - 更多类型请参考 SDK 文档
 - `value`: 参数值，范围 0.0-1.0
 
-**示例：**
+**使用示例：**
 ```dart
-// 设置磨皮强度为 0.5
-await pixelfree.pixelFreeSetBeautyFilterParam(PFBeautyFiterType.smooth, 0.5);
+// 设置磨皮强度
+await pixelfree.pixelFreeSetBeautyFilterParam(PFBeautyFiterType.faceBlurStrength, 0.7);
+
+// 设置美牙强度
+await pixelfree.pixelFreeSetBeautyFilterParam(PFBeautyFiterType.whitenTeeth, 0.5);
+
+// 设置亮眼强度
+await pixelfree.pixelFreeSetBeautyFilterParam(PFBeautyFiterType.faceEyeBrighten, 0.3);
 ```
 
 ### pixelFreeSetBeautyExtend()
