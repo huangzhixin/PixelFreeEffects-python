@@ -1,3 +1,7 @@
+## 2.5.4
+- 修复 Android 磨皮锐化 bug
+- Android 依赖更新至 `io.github.uu-code007:lib_pixelFree:2.5.04`
+
 ## 2.5.3
 - 图片检测最小人脸识别屏占 0.02
 
