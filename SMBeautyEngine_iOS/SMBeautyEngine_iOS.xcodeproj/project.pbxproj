@@ -299,6 +299,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		C901556B2F39BA5400D31A54 /* dayanyanzhao */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = dayanyanzhao; sourceTree = "<group>"; };
 		C9C05E952ED2021D003FF5B2 /* makeup */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = makeup; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -528,6 +529,7 @@
 				E32C9FDF28E69A3300FB225E /* pixelfreeAuth.lic */,
 				C99D8B6C2D7E8FAB00DC5D41 /* face_mask.png */,
 				C90C3D492DB8B95500A1C13B /* allStickers.json */,
+				C901556B2F39BA5400D31A54 /* dayanyanzhao */,
 			);
 			path = res;
 			sourceTree = "<group>";
@@ -576,6 +578,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				C901556B2F39BA5400D31A54 /* dayanyanzhao */,
 				C9C05E952ED2021D003FF5B2 /* makeup */,
 			);
 			name = SMBeautyEngine_iOS;
