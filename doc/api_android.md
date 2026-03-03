@@ -1,8 +1,9 @@
 # pixelFree Android API 文档
 
 ## 相关文档
-- [iOS API 文档](api_ios.md)
+- [iOS API 文档](api_iOS.md)
 - [Flutter API 文档](api_flutter.md)
+- [C API 文档](api_c.md)
 - [使用文档](../README.md)
 
 ## 安装
@@ -142,19 +143,29 @@ fun pixelFreeSetBeautyFiterParam(key: Int, value: Float)
 ```
 
 **参数：**
-- `key`: 美颜参数类型，可选值：
+- `key`: 美颜参数类型，常用类型包括：
   - `PFBeautyFiterTypeFace_EyeStrength`: 大眼
   - `PFBeautyFiterTypeFace_thinning`: 瘦脸
   - `PFBeautyFiterTypeFaceBlurStrength`: 磨皮
   - `PFBeautyFiterTypeFaceWhitenStrength`: 美白
   - `PFBeautyFiterTypeFaceRuddyStrength`: 红润
+  - `PFBeautyFiterTypeFaceEyeBrighten`: 亮眼
+  - `PFBeautyFilterNasolabial`: 祛法令纹
+  - `PFBeautyFilterBlackEye`: 祛黑眼圈
+  - `PFBeautyFilterWhitenTeeth`: 美牙
   - 更多类型请参考 SDK 文档
 - `value`: 参数值，范围 0.0-1.0
 
-**示例：**
+**使用示例：**
 ```kotlin
-// 设置磨皮强度为 0.5
-pixelFree.pixelFreeSetBeautyFiterParam(PFBeautyFiterTypeFaceBlurStrength, 0.5f)
+// 设置磨皮强度
+pixelFree.pixelFreeSetBeautyFiterParam(PFBeautyFiterTypeFaceBlurStrength, 0.7f)
+
+// 设置美牙强度
+pixelFree.pixelFreeSetBeautyFiterParam(PFBeautyFilterWhitenTeeth, 0.5f)
+
+// 设置亮眼强度
+pixelFree.pixelFreeSetBeautyFiterParam(PFBeautyFiterTypeFaceEyeBrighten, 0.3f)
 ```
 
 ### pixelFreeSetBeautyFiterParam()
