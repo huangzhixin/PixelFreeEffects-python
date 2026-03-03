@@ -11,5 +11,6 @@
         "ratio": "cpp",
         "tuple": "cpp",
         "vector": "cpp"
-    }
+    },
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
