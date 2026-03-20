@@ -1,3 +1,6 @@
+## 2.5.5
+- 新增 Flutter 接口 `setConsoleLogEnabled`，支持开关原生 iOS/Android 控制台日志输出
+
 ## 2.5.4
 - 修复 Android 磨皮锐化 bug
 - Android 依赖更新至 `io.github.uu-code007:lib_pixelFree:2.5.04`

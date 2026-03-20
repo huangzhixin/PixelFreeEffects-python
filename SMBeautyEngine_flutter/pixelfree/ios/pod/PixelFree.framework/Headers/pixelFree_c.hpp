@@ -212,6 +212,8 @@ PF_CAPI_EXPORT extern const char* PF_Version();
 typedef struct PFPixelFree PFPixelFree;
 
 PF_CAPI_EXPORT extern void PF_VLogSetLevel(PFPixelFree* pixelFree,int level,char *path);
+// 启用/禁用日志输出到控制台（1: 启用，0: 禁用），全局开关
+PF_CAPI_EXPORT extern void PF_VLogSetConsoleEnabled(int enabled);
 
 PF_CAPI_EXPORT extern PFPixelFree* PF_NewPixelFree();
 

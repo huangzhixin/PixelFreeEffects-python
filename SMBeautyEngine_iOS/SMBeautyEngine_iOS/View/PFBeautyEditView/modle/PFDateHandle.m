@@ -47,7 +47,7 @@
 +(NSArray<PFBeautyParam *>*)setupSkinData{
     NSArray *prams = @[@"writen",@"runddy",@"blur",@"sharpen",@"eye_b",@"nasolabialStrength",@"blackEyeStrength",@"teethStrength"];//
     NSDictionary *titelDic = @{@"writen":@"美白",@"runddy":@"红润",@"blur":@"磨皮",@"sharpen":@"锐化",@"newWhitenStrength":@"新美白",@"eye_b":@"亮眼",@"qualityStrength":@"增强画质",@"nasolabialStrength":@"祛法令纹",@"blackEyeStrength":@"祛黑眼圈",@"teethStrength":@"白牙"};
-    NSDictionary *defaultValueDic = @{@"runddy":@(0.6),@"writen":@(0.6),@"blur":@(0.7),@"sharpen":@(0.3),@"eye_b":@(0.0),@"newWhitenStrength":@(0.2),@"qualityStrength":@(0.2),@"nasolabialStrength":@(0.0),@"blackEyeStrength":@(0.0),@"teethStrength":@(0.0)};
+    NSDictionary *defaultValueDic = @{@"runddy":@(0.6),@"writen":@(0.6),@"blur":@(0.4),@"sharpen":@(0.3),@"eye_b":@(0.0),@"newWhitenStrength":@(0.2),@"qualityStrength":@(0.6),@"nasolabialStrength":@(0.0),@"blackEyeStrength":@(0.0),@"teethStrength":@(0.0)};
     
     NSMutableArray *array = [[NSMutableArray alloc] init];
 
@@ -81,7 +81,7 @@
                                 @"face_mouth":@"嘴巴",@"face_philtrum":@"人中",@"face_long_nose":@"长鼻",@"face_eye_space":@"眼距",@"face_smile":@"微笑嘴角",@"face_eye_rotate":@"眼睛角度",@"face_canthus":@"开眼角"
      };
     NSDictionary *defaultValueDic = @{@"face_EyeStrength":@(0.2),@"face_thinning":@(0.2),@"face_narrow":@(0.2),@"face_chin":@(0.5),
-                                      @"face_V":@(0.2),@"face_small":@(0.2),@"face_nose":@(0.2),@"face_forehead":@(0.5),
+                                      @"face_V":@(0.2),@"face_small":@(0.0),@"face_nose":@(0.2),@"face_forehead":@(0.5),
                                       @"face_mouth":@(0.5),@"face_philtrum":@(0.5),@"face_long_nose":@(0.5),@"face_eye_space":@(0.5),@"face_smile":@(0),@"face_eye_rotate":@(0.5),@"face_canthus":@(0)
     };
     

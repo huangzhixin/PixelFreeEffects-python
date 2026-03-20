@@ -255,8 +255,8 @@ typedef enum PFMakeupPart {
 // 设置美妆各部位程度值（与配置叠乘）
 PF_CAPI_EXPORT extern int PF_pixelFreeSetMakeupPartDegree(PFPixelFree* pixelFree, int part, float degree);
 
-// 获取停止渲染标志（黑名单检查结果）
-PF_CAPI_EXPORT extern int PF_pixelFreeGetStopRender(PFPixelFree* pixelFree);
+// 设置是否开启皮肤分割（Skin Mask），enable != 0 表示开启
+PF_CAPI_EXPORT extern void PF_pixelFreeSetSkinMask(PFPixelFree* pixelFree, int enable);
 
 #ifdef __cplusplus
 }

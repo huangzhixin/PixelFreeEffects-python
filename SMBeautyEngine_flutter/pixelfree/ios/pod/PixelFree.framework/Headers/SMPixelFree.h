@@ -89,6 +89,9 @@ __attribute__((visibility("default"))) @interface SMPixelFree : NSObject
 // 设置美妆部位程度（与配置叠乘）
 - (void)pixelFreeSetMakeupPart:(int)part degree:(float)degree;
 
+// 设置是否输出日志到控制台
+- (void)setConsoleLogEnabled:(BOOL)enabled;
+
 @end
 
 NS_ASSUME_NONNULL_END
