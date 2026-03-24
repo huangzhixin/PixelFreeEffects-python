@@ -1,3 +1,7 @@
+## 2.5.6
+- 磨皮只作用人脸
+- 磨皮自动开启肤色均匀
+
 ## 2.5.5
 - 新增 Flutter 接口 `setConsoleLogEnabled`，支持开关原生 iOS/Android 控制台日志输出
 

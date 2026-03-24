@@ -212,8 +212,6 @@ PF_CAPI_EXPORT extern const char* PF_Version();
 typedef struct PFPixelFree PFPixelFree;
 
 PF_CAPI_EXPORT extern void PF_VLogSetLevel(PFPixelFree* pixelFree,int level,char *path);
-// 启用/禁用日志输出到控制台（1: 启用，0: 禁用），全局开关
-PF_CAPI_EXPORT extern void PF_VLogSetConsoleEnabled(int enabled);
 
 PF_CAPI_EXPORT extern PFPixelFree* PF_NewPixelFree();
 
@@ -257,8 +255,8 @@ typedef enum PFMakeupPart {
 // 设置美妆各部位程度值（与配置叠乘）
 PF_CAPI_EXPORT extern int PF_pixelFreeSetMakeupPartDegree(PFPixelFree* pixelFree, int part, float degree);
 
-// 获取停止渲染标志（黑名单检查结果）
-PF_CAPI_EXPORT extern int PF_pixelFreeGetStopRender(PFPixelFree* pixelFree);
+// 设置是否开启皮肤分割（Skin Mask），enable != 0 表示开启
+PF_CAPI_EXPORT extern void PF_pixelFreeSetSkinMask(PFPixelFree* pixelFree, int enable);
 
 #ifdef __cplusplus
 }

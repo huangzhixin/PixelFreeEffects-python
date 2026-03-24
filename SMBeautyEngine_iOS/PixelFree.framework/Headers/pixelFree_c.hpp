@@ -188,6 +188,59 @@ typedef enum PFBeautyFilterType{
     PFBeautyFilterBlackEye,
     // 白牙
     PFBeautyFilterWhitenTeeth,
+
+    // ===== 新增：PFWarpFace 细分（ins1.png 0-74）=====
+    // 默认值：0.5（中性，不改变）
+    // 取值建议：0.0 ~ 1.0
+
+    // 眼部：眼睛上下（整体上/下移）
+    // 默认值：0.5；>0.5 上移，<0.5 下移
+    PFBeautyFilterTypeFace_eye_y,
+    // 眼部：眼高低（上下眼睑开合）
+    // 默认值：0.5；>0.5 眼裂增大，<0.5 眼裂减小
+    PFBeautyFilterTypeFace_eye_height,
+    // 鼻部：鼻子整体大小
+    // 默认值：0.5；>0.5 放大，<0.5 缩小
+    PFBeautyFilterTypeFace_nose_size,
+    // 鼻部：鼻子高低（纵向高度感）
+    // 默认值：0.5；>0.5 增高，<0.5 降低
+    PFBeautyFilterTypeFace_nose_height,
+    // 鼻部：鼻子上下（整体位置上/下移）
+    // 默认值：0.5；>0.5 上移，<0.5 下移
+    PFBeautyFilterTypeFace_nose_y,
+    // 鼻部：鼻尖
+    // 默认值：0.5；>0.5 更突出，<0.5 更收敛
+    PFBeautyFilterTypeFace_nose_tip,
+    // 鼻部：鼻梁
+    // 默认值：0.5；>0.5 更立体，<0.5 更平缓
+    PFBeautyFilterTypeFace_nose_bridge,
+    // 眉部：眉粗细
+    // 默认值：0.5；>0.5 加粗，<0.5 变细
+    PFBeautyFilterTypeFace_brow_thickness,
+    // 眉部：眉长短
+    // 默认值：0.5；>0.5 变长，<0.5 变短
+    PFBeautyFilterTypeFace_brow_length,
+    // 眉部：眉提升
+    // 默认值：0.5；>0.5 上提，<0.5 下压
+    PFBeautyFilterTypeFace_brow_lift,
+    // 眉部：眉距离
+    // 默认值：0.5；>0.5 拉开，<0.5 靠近
+    PFBeautyFilterTypeFace_brow_distance,
+    // 眉部：眉倾斜
+    // 默认值：0.5；>0.5 眉尾上扬，<0.5 眉尾下压
+    PFBeautyFilterTypeFace_brow_tilt,
+    // 唇部：上唇厚度
+    // 默认值：0.5；>0.5 变厚，<0.5 变薄
+    PFBeautyFilterTypeFace_upper_lip_thickness,
+    // 唇部：下唇厚度
+    // 默认值：0.5；>0.5 变厚，<0.5 变薄
+    PFBeautyFilterTypeFace_lower_lip_thickness,
+    // 唇部：丰唇（整体饱满/收薄）
+    // 默认值：0.5；>0.5 更饱满，<0.5 更收薄
+    PFBeautyFilterTypeFace_lip_fullness,
+    // 唇部：嘴唇宽度
+    // 默认值：0.5；>0.5 变宽，<0.5 变窄
+    PFBeautyFilterTypeFace_mouth_width,
     
 } PFBeautyFilterType;
 
@@ -212,6 +265,8 @@ PF_CAPI_EXPORT extern const char* PF_Version();
 typedef struct PFPixelFree PFPixelFree;
 
 PF_CAPI_EXPORT extern void PF_VLogSetLevel(PFPixelFree* pixelFree,int level,char *path);
+// 启用/禁用日志输出到控制台（1: 启用，0: 禁用），全局开关
+PF_CAPI_EXPORT extern void PF_VLogSetConsoleEnabled(int enabled);
 
 PF_CAPI_EXPORT extern PFPixelFree* PF_NewPixelFree();
 
