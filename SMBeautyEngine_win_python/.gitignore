@@ -1,0 +1,14 @@
+/.DS_Store
+__pycache__/
+*.pyc
+*.pyo
+*.obj
+*.exp
+*.lib
+
+res/*.mp4
+res/*_out*.png
+res/*_out*.mp4
+res/output*.mp4
+res/cli_*.png
+res/frame0*.png

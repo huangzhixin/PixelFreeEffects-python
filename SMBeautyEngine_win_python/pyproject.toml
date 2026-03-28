@@ -1,0 +1,17 @@
+[project]
+name = "smbeautyengine-win-python"
+version = "0.1.0"
+description = "Windows Python bridge for PixelFree image and video processing"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "glfw",
+    "PyOpenGL",
+    "Pillow",
+    "imageio",
+    "imageio-ffmpeg",
+]
+
+[tool.uv]
+package = false
