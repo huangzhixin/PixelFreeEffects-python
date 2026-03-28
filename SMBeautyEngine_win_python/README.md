@@ -9,25 +9,6 @@
 2. `bridge.py`
    在你自己的 Python 业务代码里直接调用原生接口
 
-## 目录说明
-
-建议交付时保留以下文件：
-
-- `bridge.py`
-- `processor_cli.py`
-- `pyproject.toml`
-- `requirements.txt`
-- `native_bridge/pixel_free_bridge.cpp`
-- `native_bridge/build_bridge.cmd`
-- `res/pixelfreeAuth.lic`
-- `res/filter_model.bundle`
-- `README.md`
-
-说明：
-
-- `main.py` 是仓库里原本已有的示例文件，不作为当前交付入口。
-- `lib/pixel_free_bridge.dll` 是编译产物，不一定会进 Git；如果同事本地没有这个 DLL，需要按下面的步骤先编译。
-
 ## 环境要求
 
 - Windows 10 或更高版本
@@ -92,15 +73,8 @@ SMBeautyEngine_win_python/lib/pixel_free_bridge.dll
 
 如果这个文件不存在，`bridge.py` 和 `processor_cli.py` 都无法运行。
 
-## 推荐运行方式
 
-如果你使用 `uv` 管理环境，推荐这样执行：
-
-```powershell
-uv run python processor_cli.py --input .\res\test.png --output .\res\result.png --filter-name heibai1 --filter-strength 1.0
-```
-
-## 直接运行
+## 直接运行命令
 
 ### 处理图片
 
@@ -123,7 +97,7 @@ python processor_cli.py --input .\res\test.mp4 --output .\res\result.mp4 --filte
 使用 `uv` 时：
 
 ```powershell
-uv run python processor_cli.py --input .\res\test.mp4 --output .\res\result.mp4 --filter-name heibai1 --filter-strength 1.0 --narrow 0.9 --v-face 0.9 --white 0.3 --blur 0.4
+uv run python processor_cli.py --input .\res\test.mp4 --output .\res\result.mp4 --filter-name heibai1 --filter-strength 1.0 --narrow 0.9 --v-face 0.9 --white 0.3 --blur 0.4 --progress-every 10
 ```
 
 长视频建议带上进度输出：
@@ -262,9 +236,7 @@ cmd /c build_bridge.cmd
 
 这个问题已经在当前 bridge 版本中修复。如果再次出现，请确认本地使用的是最新编译出来的 `lib/pixel_free_bridge.dll`。
 
-### 4. 同事下载代码后怎么快速创建环境
-
-推荐直接执行：
+### 4. 快速创建环境
 
 ```powershell
 uv venv --python 3.11
@@ -274,22 +246,3 @@ cmd /c build_bridge.cmd
 cd ..
 uv run python processor_cli.py --input .\res\test.png --output .\res\result.png --filter-name heibai1 --filter-strength 1.0
 ```
-
-## 交付建议
-
-建议以新分支交付，并只提交这些内容：
-
-- Python 源码
-- `native_bridge` 源码和构建脚本
-- `pyproject.toml`
-- `requirements.txt`
-- 本 README
-
-不建议提交：
-
-- `__pycache__`
-- `.obj`
-- `.exp`
-- `.lib`
-- 临时输出图片和视频
-- 排查阶段使用的旧 bridge 或 runner 方案
