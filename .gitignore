@@ -6,4 +6,5 @@ PixelFreeCxx/release_android/
 SMBeautyEngine_andriod/pixelfree_android_demo/hapiAVCapture/build
 SMBeautyEngine_andriod/pixelfree_android_demo/baseAVParam/build
 *.text
+.vscode/*
 
