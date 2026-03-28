@@ -1,0 +1,6 @@
+numpy
+glfw
+PyOpenGL
+Pillow
+imageio
+imageio-ffmpeg
