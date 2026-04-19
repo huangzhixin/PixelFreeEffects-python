@@ -1,5 +1,9 @@
 import argparse
 import math
+import os
+import shutil
+import subprocess
+import tempfile
 import time
 from pathlib import Path
 
@@ -9,6 +13,8 @@ from PIL import Image
 
 from bridge import PFBeautyFiterType, PFRotationMode, PixelFreeBridge
 
+
+os.environ.setdefault("IMAGEIO_FFMPEG_EXE", "ffmpeg")
 
 IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".bmp", ".webp"}
 VIDEO_SUFFIXES = {".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v"}
@@ -22,15 +28,31 @@ def parse_args():
     parser.add_argument("--output", required=True, help="Output image or video path")
     parser.add_argument("--auth", help="Auth license path")
     parser.add_argument("--filter-bundle", help="filter_model.bundle path")
-    parser.add_argument("--filter-name", default="heibai1", help="Built-in filter name")
+    parser.add_argument("--filter-name", default=None, help="Built-in filter name")
     parser.add_argument("--filter-strength", type=float, default=None, help="Filter strength 0.0-1.0")
     parser.add_argument("--eye", type=float, default=None, help="Big eye strength")
     parser.add_argument("--thin", type=float, default=None, help="Face thinning strength")
-    parser.add_argument("--narrow", type=float, default=1.0, help="Face narrow strength")
-    parser.add_argument("--v-face", type=float, default=1.0, dest="v_face", help="V face strength")
+    parser.add_argument("--narrow", type=float, default=None, help="Face narrow strength")
+    parser.add_argument("--chin", type=float, default=None)
+    parser.add_argument("--small-face", type=float, default=None, dest="small_face")
+    parser.add_argument("--nose", type=float, default=None)
+    parser.add_argument("--forehead", type=float, default=None)
+    parser.add_argument("--mouth", type=float, default=None)
+    parser.add_argument("--philtrum", type=float, default=None)
+    parser.add_argument("--long-nose", type=float, default=None, dest="long_nose")
+    parser.add_argument("--eye-space", type=float, default=None, dest="eye_space")
+    parser.add_argument("--smile", type=float, default=None)
+    parser.add_argument("--eye-rotate", type=float, default=None, dest="eye_rotate")
+    parser.add_argument("--canthus", type=float, default=None)
+    parser.add_argument("--v-face", type=float, default=None, dest="v_face", help="V face strength")
     parser.add_argument("--white", type=float, default=None, help="Whitening strength")
     parser.add_argument("--blur", type=float, default=None, help="Skin smoothing strength")
     parser.add_argument("--ruddy", type=float, default=None, help="Ruddy strength")
+    parser.add_argument("--sharpen", type=float, default=None)
+    parser.add_argument("--new-whiten", type=float, default=None, dest="new_whiten")
+    parser.add_argument("--quality", type=float, default=None)
+    parser.add_argument("--eye-brighten", type=float, default=None, dest="eye_brighten")
+    parser.add_argument("--one-key", type=int, choices=[0, 1, 2, 3, 4], default=0, dest="one_key")
     parser.add_argument(
         "--rotation",
         type=int,
@@ -66,14 +88,32 @@ def apply_params(bridge, args):
         (args.eye, PFBeautyFiterType.PFBeautyFiterTypeFace_EyeStrength),
         (args.thin, PFBeautyFiterType.PFBeautyFiterTypeFace_thinning),
         (args.narrow, PFBeautyFiterType.PFBeautyFiterTypeFace_narrow),
+        (args.chin, PFBeautyFiterType.PFBeautyFiterTypeFace_chin),
         (args.v_face, PFBeautyFiterType.PFBeautyFiterTypeFace_V),
+        (args.small_face, PFBeautyFiterType.PFBeautyFiterTypeFace_small),
+        (args.nose, PFBeautyFiterType.PFBeautyFiterTypeFace_nose),
+        (args.forehead, PFBeautyFiterType.PFBeautyFiterTypeFace_forehead),
+        (args.mouth, PFBeautyFiterType.PFBeautyFiterTypeFace_mouth),
+        (args.philtrum, PFBeautyFiterType.PFBeautyFiterTypeFace_philtrum),
+        (args.long_nose, PFBeautyFiterType.PFBeautyFiterTypeFace_long_nose),
+        (args.eye_space, PFBeautyFiterType.PFBeautyFiterTypeFace_eye_space),
+        (args.smile, PFBeautyFiterType.PFBeautyFiterTypeFace_smile),
+        (args.eye_rotate, PFBeautyFiterType.PFBeautyFiterTypeFace_eye_rotate),
+        (args.canthus, PFBeautyFiterType.PFBeautyFiterTypeFace_canthus),
         (args.white, PFBeautyFiterType.PFBeautyFiterTypeFaceWhitenStrength),
         (args.blur, PFBeautyFiterType.PFBeautyFiterTypeFaceBlurStrength),
         (args.ruddy, PFBeautyFiterType.PFBeautyFiterTypeFaceRuddyStrength),
+        (args.sharpen, PFBeautyFiterType.PFBeautyFiterTypeFaceSharpenStrength),
+        (args.new_whiten, PFBeautyFiterType.PFBeautyFiterTypeFaceM_newWhitenStrength),
+        (args.quality, PFBeautyFiterType.PFBeautyFiterTypeFaceH_qualityStrength),
+        (args.eye_brighten, PFBeautyFiterType.PFBeautyFiterTypeFaceEyeBrighten),
     ]
     for value, param_type in float_params:
         if value is not None:
             bridge.set_float_param(param_type, value)
+
+    if args.one_key:
+        raise ValueError("one_key beauty is not supported by the Windows Python bridge yet; use one_key=0.")
 
 
 def process_image(input_path, output_path, args):
@@ -83,6 +123,37 @@ def process_image(input_path, output_path, args):
         frame = np.array(image, dtype=np.uint8)
         result = bridge.process_rgba(frame, rotation=rotation_to_enum(args.rotation))
         Image.fromarray(result, "RGBA").save(output_path)
+
+
+def mux_audio_from_source(video_without_audio: Path, source_video: Path, final_output: Path) -> None:
+    temp_output = final_output.with_name(f"{final_output.stem}_mux{final_output.suffix}")
+    command = [
+        os.environ.get("IMAGEIO_FFMPEG_EXE", "ffmpeg"),
+        "-y",
+        "-i",
+        str(video_without_audio),
+        "-i",
+        str(source_video),
+        "-map",
+        "0:v:0",
+        "-map",
+        "1:a:0?",
+        "-c:v",
+        "copy",
+        "-c:a",
+        "aac",
+        "-shortest",
+        str(temp_output),
+    ]
+    completed = subprocess.run(command, text=True, capture_output=True)
+    if completed.returncode != 0:
+        shutil.move(str(video_without_audio), str(final_output))
+        return
+
+    video_without_audio.unlink(missing_ok=True)
+    if final_output.exists():
+        final_output.unlink()
+    temp_output.replace(final_output)
 
 
 def process_video(input_path, output_path, args):
@@ -111,58 +182,62 @@ def process_video(input_path, output_path, args):
             + (f", ~{total_frames} frames" if total_frames else "")
         )
 
-    with PixelFreeBridge(auth_path=args.auth, filter_path=args.filter_bundle) as bridge:
-        apply_params(bridge, args)
+    with tempfile.TemporaryDirectory(prefix="beauty_video_") as temp_dir:
+        temp_video = Path(temp_dir) / Path(output_path).name
+        with PixelFreeBridge(auth_path=args.auth, filter_path=args.filter_bundle) as bridge:
+            apply_params(bridge, args)
 
-        writer = None
-        try:
-            for index, frame in enumerate(reader):
-                frame_array = np.asarray(frame, dtype=np.uint8)
-                if frame_array.ndim != 3:
-                    raise ValueError(f"Unexpected frame shape at index {index}: {frame_array.shape}")
-                if frame_array.shape[2] not in (3, 4):
-                    raise ValueError(f"Unsupported channel count at index {index}: {frame_array.shape[2]}")
+            writer = None
+            try:
+                for index, frame in enumerate(reader):
+                    frame_array = np.asarray(frame, dtype=np.uint8)
+                    if frame_array.ndim != 3:
+                        raise ValueError(f"Unexpected frame shape at index {index}: {frame_array.shape}")
+                    if frame_array.shape[2] not in (3, 4):
+                        raise ValueError(f"Unsupported channel count at index {index}: {frame_array.shape[2]}")
 
-                if frame_array.shape[2] == 4:
-                    pil_frame = Image.fromarray(frame_array, "RGBA")
-                else:
-                    pil_frame = Image.fromarray(frame_array, "RGB")
-
-                rgba = np.array(pil_frame.convert("RGBA"), dtype=np.uint8)
-
-                processed = bridge.process_rgba(rgba, rotation=rotation_to_enum(args.rotation))
-                rgb = processed[:, :, :3]
-
-                if writer is None:
-                    writer = imageio.get_writer(
-                        output_path,
-                        fps=fps,
-                        codec="libx264",
-                        quality=8,
-                        macro_block_size=1,
-                    )
-
-                writer.append_data(rgb)
-
-                frame_index = index + 1
-                if args.progress_every > 0 and (
-                    frame_index == 1 or frame_index % args.progress_every == 0
-                ):
-                    elapsed = max(time.time() - started_at, 1e-6)
-                    speed = frame_index / elapsed
-                    if total_frames:
-                        percent = frame_index / total_frames * 100
-                        eta_seconds = max(total_frames - frame_index, 0) / max(speed, 1e-6)
-                        print(
-                            f"[{frame_index}/{total_frames} | {percent:.1f}%] "
-                            f"{speed:.2f} fps, ETA {eta_seconds:.1f}s"
-                        )
+                    if frame_array.shape[2] == 4:
+                        pil_frame = Image.fromarray(frame_array, "RGBA")
                     else:
-                        print(f"[{frame_index} frames] {speed:.2f} fps")
-        finally:
-            reader.close()
-            if writer is not None:
-                writer.close()
+                        pil_frame = Image.fromarray(frame_array, "RGB")
+
+                    rgba = np.array(pil_frame.convert("RGBA"), dtype=np.uint8)
+
+                    processed = bridge.process_rgba(rgba, rotation=rotation_to_enum(args.rotation))
+                    rgb = processed[:, :, :3]
+
+                    if writer is None:
+                        writer = imageio.get_writer(
+                            str(temp_video),
+                            fps=fps,
+                            codec="libx264",
+                            quality=8,
+                            macro_block_size=1,
+                        )
+
+                    writer.append_data(rgb)
+
+                    frame_index = index + 1
+                    if args.progress_every > 0 and (
+                        frame_index == 1 or frame_index % args.progress_every == 0
+                    ):
+                        elapsed = max(time.time() - started_at, 1e-6)
+                        speed = frame_index / elapsed
+                        if total_frames:
+                            percent = frame_index / total_frames * 100
+                            eta_seconds = max(total_frames - frame_index, 0) / max(speed, 1e-6)
+                            print(
+                                f"[{frame_index}/{total_frames} | {percent:.1f}%] "
+                                f"{speed:.2f} fps, ETA {eta_seconds:.1f}s"
+                            )
+                        else:
+                            print(f"[{frame_index} frames] {speed:.2f} fps")
+            finally:
+                reader.close()
+                if writer is not None:
+                    writer.close()
+
+        mux_audio_from_source(temp_video, Path(input_path), Path(output_path))
 
     elapsed = time.time() - started_at
     print(f"Video processing finished in {elapsed:.1f}s")

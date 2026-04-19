@@ -119,7 +119,7 @@ def process_image(input_path: Path, output_path: Path, args: argparse.Namespace)
 def mux_audio_from_source(video_without_audio: Path, source_video: Path, final_output: Path) -> None:
     temp_output = final_output.with_name(f"{final_output.stem}_mux{final_output.suffix}")
     command = [
-        "ffmpeg",
+        os.environ.get("IMAGEIO_FFMPEG_EXE", "ffmpeg"),
         "-y",
         "-i",
         str(video_without_audio),
